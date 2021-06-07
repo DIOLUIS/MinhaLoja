@@ -10,12 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.diotec.MyStoreControll.entities.Cliente;
 import com.diotec.MyStoreControll.entities.Endereco;
+import com.diotec.MyStoreControll.entities.ItemPedido;
 import com.diotec.MyStoreControll.entities.Pagamento;
 import com.diotec.MyStoreControll.entities.Pedido;
 import com.diotec.MyStoreControll.entities.Produto;
 import com.diotec.MyStoreControll.enums.EstadoPagamento;
 import com.diotec.MyStoreControll.repositories.ClienteRepository;
 import com.diotec.MyStoreControll.repositories.EnderecoRepository;
+import com.diotec.MyStoreControll.repositories.ItemPedidoRepository;
 import com.diotec.MyStoreControll.repositories.PagamentoRepository;
 import com.diotec.MyStoreControll.repositories.PedidoRepository;
 import com.diotec.MyStoreControll.repositories.ProdutoRepository;
@@ -37,6 +39,9 @@ public class MyStoreControllApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 
 	public static void main(String[] args) {
@@ -94,6 +99,21 @@ public class MyStoreControllApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2,ped3));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2,pagto3));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 3, 315.00);
+		ItemPedido ip2 = new ItemPedido(ped2, p2, 0.00, 4, 160.00);
+		ItemPedido ip3 = new ItemPedido(ped3, p3, 100.00, 6, 150.00);
+		
+		ped1.getItens().add(ip1);
+		ped2.getItens().add(ip2);
+		ped3.getItens().add(ip3);
+		
+		p1.getItens().add(ip1);
+		p2.getItens().add(ip2);
+		p3.getItens().add(ip3);
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
+		
 		
 	}
 
