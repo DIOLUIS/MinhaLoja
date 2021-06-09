@@ -1,5 +1,6 @@
 package com.diotec.MyStoreControll.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,8 @@ public class PedidoService {
 
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! id: " + id + ", Tipo: " + Cliente.class.getName()));
+	}
+	public List<Pedido> findAll() {
+		return repo.findAll();
 	}
 }

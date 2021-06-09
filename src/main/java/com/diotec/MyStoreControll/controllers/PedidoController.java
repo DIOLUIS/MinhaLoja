@@ -1,5 +1,7 @@
 package com.diotec.MyStoreControll.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,10 +20,14 @@ public class PedidoController {
 	private PedidoService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 		Pedido obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 
 	}
-
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<Pedido>> findAll() {
+		List<Pedido> list = service.findAll();
+		return ResponseEntity.ok().body(list);
+	}
 }
