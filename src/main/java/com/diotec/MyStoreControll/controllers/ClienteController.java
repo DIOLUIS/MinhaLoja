@@ -1,5 +1,6 @@
 package com.diotec.MyStoreControll.controllers;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.diotec.MyStoreControll.dto.ClienteDTO;
+import com.diotec.MyStoreControll.dto.ClienteNewDTO;
 import com.diotec.MyStoreControll.entities.Cliente;
 import com.diotec.MyStoreControll.services.ClienteService;
 
@@ -39,7 +42,14 @@ public class ClienteController {
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+		Cliente obj = service.fromDTO(objDto);
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 
+	}
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
@@ -62,4 +72,6 @@ public class ClienteController {
 		Page<ClienteDTO> listDto = list.map(obj -> new ClienteDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
+	
+	
 }

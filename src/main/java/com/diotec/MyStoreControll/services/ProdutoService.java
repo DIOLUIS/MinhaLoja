@@ -48,7 +48,14 @@ public class ProdutoService {
 	}
 
 	public Produto update(Produto obj) {
-		find(obj.getId());
-		return repo.save(obj);
+		Produto newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
+	private void updateData(Produto newObj, Produto obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setPrecoCompra(obj.getPrecoCompra());
+		newObj.setPrecoVenda(obj.getPrecoVenda());
+		newObj.setQuantidade(obj.getQuantidade());
 	}
 }
